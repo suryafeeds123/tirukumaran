@@ -109,8 +109,9 @@ h1, h2, h3, p, li, dd, dt, label, button { overflow-wrap: break-word; }
 .nav-mobile .btn { margin-top: 12px; justify-content: center; }
 .btn.header-cta { display: none; }
 @media (min-width: 1320px) {
-  .nav-desktop { display: flex; } .menu-btn { display: none; } .header-actions { margin-left: 8px; } .btn.header-cta { display: inline-flex; white-space: nowrap; }
+  html:not(:lang(ta)) .nav-desktop { display: flex; } html:not(:lang(ta)) .menu-btn { display: none; } html:not(:lang(ta)) .header-actions { margin-left: 8px; } html:not(:lang(ta)) .btn.header-cta { display: inline-flex; white-space: nowrap; }
 }
+/* Tamil labels are too long for the capped header width, so Tamil always uses the menu button. */
 .site-header .wrap { max-width: 1360px; }
 @media (max-width: 380px) { .wm-bot { letter-spacing: 0.3em; } .brand .logo-mark { width: 52px; } .wm-top { font-size: 0.9rem; letter-spacing: 0.1em; } }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
