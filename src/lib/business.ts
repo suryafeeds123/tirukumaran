@@ -11,22 +11,38 @@ export const BUSINESS = {
   region: { en: "Tamil Nadu, India", ta: "தமிழ்நாடு, இந்தியா" },
   categories: ["car", "two_wheeler"] as const,
 
-  phone: clean(process.env.NEXT_PUBLIC_BUSINESS_PHONE),
+  // Supplied by the owner (Oct 2026). Environment variables, if set, override these defaults.
+  phone: clean(process.env.NEXT_PUBLIC_BUSINESS_PHONE) ?? "9988788666",
+  // WhatsApp not yet confirmed by the owner — stays hidden until NEXT_PUBLIC_BUSINESS_WHATSAPP is set.
   whatsapp: clean(process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP),
   address: {
-    en: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_EN),
-    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_TA),
+    en: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_EN) ?? "8A/56, AA Plaza, MG Pudur First Street, Tiruppur – 641604",
+    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_TA) ?? "8A/56, AA Plaza, MG Pudur First Street, Tiruppur – 641604",
   },
+  addressParts: {
+    streetAddress: "8A/56, AA Plaza, MG Pudur First Street",
+    addressLocality: "Tiruppur",
+    addressRegion: "Tamil Nadu",
+    postalCode: "641604",
+    addressCountry: "IN",
+  },
+  // Working days have not been supplied, so none are stated.
   hours: {
-    en: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_EN),
-    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_TA),
+    en: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_EN) ?? "10:00 AM – 5:30 PM",
+    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_TA) ?? "காலை 10:00 – மாலை 5:30",
   },
-  mapLink: clean(process.env.NEXT_PUBLIC_MAP_LINK),
+  // A plain Google Maps *search* link for the supplied address (not a Business Profile).
+  mapLink:
+    clean(process.env.NEXT_PUBLIC_MAP_LINK) ??
+    "https://www.google.com/maps/search/?api=1&query=" +
+      encodeURIComponent("8A/56, AA Plaza, MG Pudur First Street, Tiruppur 641604"),
   mapEmbed: clean(process.env.NEXT_PUBLIC_MAP_EMBED_URL),
+  // Owner: "directly arrange loans". We describe this as the team arranging finance directly — we do not claim lender/NBFC status.
   lendingModel: ((): "direct" | "partner" | null => {
     const v = clean(process.env.NEXT_PUBLIC_LENDING_MODEL);
-    return v === "direct" || v === "partner" ? v : null;
+    return v === "partner" ? "partner" : "direct";
   })(),
+  vehicleConditions: ["new", "used"] as const,
 };
 
 export type Category = (typeof BUSINESS.categories)[number];

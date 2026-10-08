@@ -1,10 +1,14 @@
 "use client";
+import { BUSINESS, formatPhoneDisplay, telLink } from "@/lib/business";
 import { L, useLocale } from "./LocaleProvider";
 import { LogoMark, Wordmark } from "./Logo";
 
 export function Footer() {
   const { t } = useLocale();
   const year = new Date().getFullYear();
+  const { locale } = useLocale();
+  const phone = formatPhoneDisplay(BUSINESS.phone), tel = telLink(BUSINESS.phone);
+  const address = BUSINESS.address[locale] ?? BUSINESS.address.en, hours = BUSINESS.hours[locale] ?? BUSINESS.hours.en;
   return (
     <footer className="footer">
       <div className="wrap footer-grid">
@@ -14,6 +18,13 @@ export function Footer() {
             <Wordmark />
           </div>
           <p className="muted" style={{ maxWidth: 38 + "ch" }}>{t.footer.blurb}</p>
+          {(phone || address || hours) && (
+            <address className="muted" style={{ fontStyle: "normal", marginTop: 14, display: "grid", gap: 4, fontSize: "0.95rem" }}>
+              {address && <span>{address}</span>}
+              {hours && <span>{t.contact.hours}: {hours}</span>}
+              {phone && <a href={tel ?? undefined} style={{ color: "var(--text)" }}>{phone}</a>}
+            </address>
+          )}
         </div>
         <div>
           <h2>{t.footer.explore}</h2>

@@ -82,7 +82,7 @@ export function HomePage({ heroSrc }: { heroSrc: string | null }) {
               <L to="emi-calculator" className="btn btn-ghost">{h.ctaSecondary}</L>
             </div>
             <div className="pills" {...rv(4)}>
-              <span className="pill">{h.pill1}</span><span className="pill">{h.pill2}</span><span className="pill">{h.pill3}</span>
+              <span className="pill">{h.pill1}</span><span className="pill">{h.pill2}</span><span className="pill">{h.pill3}</span><span className="pill">{h.pill4}</span>
             </div>
           </div>
           <HeroVisual src={heroSrc} />
@@ -263,10 +263,7 @@ export function AboutPage() {
             </div>
           ))}
         </div>
-        <div className="card" style={{ marginTop: 20 }} data-reveal>
-          <h2 className="h3">{a.pendingTitle}</h2>
-          <p className="muted" style={{ marginTop: 10 }}>{a.pending}</p>
-        </div>
+
       </section>
       <CtaBand title={t.home.ctaTitle} text={t.home.ctaText} />
     </>

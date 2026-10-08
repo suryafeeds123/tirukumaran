@@ -40,5 +40,6 @@ export function businessJsonLd(lang: Locale) {
     areaServed: { "@type": "City", name: "Tiruppur" },
     description: getDict(lang).meta.home.description,
     ...(phone ? { telephone: `+${phone}` } : {}),
+    address: { "@type": "PostalAddress", ...BUSINESS.addressParts },
   };
 }

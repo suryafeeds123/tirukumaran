@@ -15,7 +15,8 @@ Stack: Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · SQLite (`bette
 | **Storing enquiries** | Working, **but off until `LIVE_ENQUIRIES=true`**. Until then the assistant shows a *Preview* banner and never claims submission |
 | Staff dashboard (list, filters, search, status, assign, notes, follow-up, overdue, call/WhatsApp links, admin CSV export, admin delete) | Working (English only) |
 | Hero car image | Built-in SVG **illustration**. Add the owner's AI image at `public/images/premium-car.*` |
-| Phone / WhatsApp / address / hours / map / lending model | **Not shown until configured** (see `.env.example`) |
+| Phone, address, hours, new & used vehicles, direct arrangement | Supplied by the owner; live in `src/lib/business.ts` |
+| WhatsApp number, working days, lending terms/charges | **Not shown until the owner confirms** (see `.env.example`) |
 
 No AI chat is included; the structured flow is the whole assistant and needs no external service.
 
