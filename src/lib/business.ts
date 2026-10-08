@@ -1,0 +1,61 @@
+/**
+ * Single source of truth for business facts.
+ * Only the NAME, the CITY and the two loan categories are verified.
+ * Everything else comes from environment variables and is hidden when empty.
+ */
+const clean = (v: string | undefined) => (v && v.trim() ? v.trim() : null);
+
+export const BUSINESS = {
+  name: "TIRUKUMARAN AUTO FINANCE",
+  city: { en: "Tiruppur", ta: "திருப்பூர்" },
+  region: { en: "Tamil Nadu, India", ta: "தமிழ்நாடு, இந்தியா" },
+  categories: ["car", "two_wheeler"] as const,
+
+  phone: clean(process.env.NEXT_PUBLIC_BUSINESS_PHONE),
+  whatsapp: clean(process.env.NEXT_PUBLIC_BUSINESS_WHATSAPP),
+  address: {
+    en: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_EN),
+    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_ADDRESS_TA),
+  },
+  hours: {
+    en: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_EN),
+    ta: clean(process.env.NEXT_PUBLIC_BUSINESS_HOURS_TA),
+  },
+  mapLink: clean(process.env.NEXT_PUBLIC_MAP_LINK),
+  mapEmbed: clean(process.env.NEXT_PUBLIC_MAP_EMBED_URL),
+  lendingModel: ((): "direct" | "partner" | null => {
+    const v = clean(process.env.NEXT_PUBLIC_LENDING_MODEL);
+    return v === "direct" || v === "partner" ? v : null;
+  })(),
+};
+
+export type Category = (typeof BUSINESS.categories)[number];
+
+/** Digits only, with the +91 country code for wa.me / tel links. Returns null if not a plausible number. */
+export function intlDigits(raw: string | null): string | null {
+  if (!raw) return null;
+  const d = raw.replace(/\D/g, "");
+  if (d.length === 10) return "91" + d;
+  if (d.length === 12 && d.startsWith("91")) return d;
+  return null;
+}
+
+export function whatsappLink(raw: string | null, text?: string): string | null {
+  const n = intlDigits(raw);
+  if (!n) return null;
+  return `https://wa.me/${n}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+}
+
+export function telLink(raw: string | null): string | null {
+  const n = intlDigits(raw);
+  return n ? `tel:+${n}` : null;
+}
+
+export function formatPhoneDisplay(raw: string | null): string | null {
+  const n = intlDigits(raw);
+  return n ? `+91 ${n.slice(2, 7)} ${n.slice(7)}` : null;
+}
+
+export const SITE_URL = (process.env.SITE_URL || "").replace(/\/$/, "") || null;
+export const INDEXING_ENABLED = process.env.SITE_INDEXING === "true" && !!SITE_URL;
+export const LIVE_ENQUIRIES = process.env.LIVE_ENQUIRIES === "true";
