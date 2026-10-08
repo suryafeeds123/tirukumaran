@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "staff:create": "tsx scripts/create-staff.ts"
+    "staff:create": "tsx scripts/create-staff.ts",
+    "local": "node scripts/setup-local.mjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",
